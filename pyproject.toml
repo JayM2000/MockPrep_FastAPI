@@ -1,0 +1,22 @@
+[project]
+name = "mockprep-fastapi-ai"
+version = "0.1.0"
+description = "Dedicated AI and Code Intelligence microservice for MockPrep platform"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.162.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.2.0",
+]
+
+[tool.fastapi]
+entrypoint = "app.main:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
