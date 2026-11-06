@@ -3,9 +3,12 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.internal.v1.router import internal_router
 from app.api.v1.endpoints.health import HealthResponse
 from app.api.v1.router import api_router
 from app.core.config import settings
+from app.utils.challenge_paths import CHALLENGE_PATHS
+from app.utils.health_paths import HEALTH_PATHS
 
 
 @asynccontextmanager
@@ -44,7 +47,7 @@ if settings.BACKEND_CORS_ORIGINS:
 
 # Top-level root endpoint
 @app.get(
-    "/",
+    HEALTH_PATHS.ROOT,
     summary="Root Service Index",
     tags=["Root"],
 )
@@ -52,14 +55,14 @@ async def root() -> dict[str, str]:
     """Simple root greeting pointing to documentation."""
     return {
         "message": f"{settings.PROJECT_NAME} is running",
-        "docs": "/docs",
+        "docs": HEALTH_PATHS.DOCS,
         "version": settings.VERSION,
     }
 
 
 # Top-level liveness probe (/health)
 @app.get(
-    "/health",
+    HEALTH_PATHS.HEALTH,
     response_model=HealthResponse,
     summary="Top-Level Health Check",
     tags=["Health"],
@@ -67,7 +70,7 @@ async def root() -> dict[str, str]:
 async def root_health() -> HealthResponse:
     """Standard health check accessible at root level for orchestrators."""
     return HealthResponse(
-        status="oks",
+        status="ok",
         service=settings.PROJECT_NAME,
         version=settings.VERSION,
         environment=settings.ENVIRONMENT,
@@ -77,3 +80,6 @@ async def root_health() -> HealthResponse:
 
 # Mount versioned API routes under /api/v1
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Mount internal service-to-service routes under /internal/v1
+app.include_router(internal_router, prefix=CHALLENGE_PATHS.INTERNAL_PREFIX)

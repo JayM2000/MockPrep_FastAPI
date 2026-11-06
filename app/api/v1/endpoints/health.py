@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, status
 from pydantic import BaseModel, Field
 from app.core.config import settings
+from app.utils.health_paths import HEALTH_PATHS
 
 router = APIRouter()
 
@@ -19,7 +20,7 @@ class HealthResponse(BaseModel):
 
 
 @router.get(
-    "/health",
+    HEALTH_PATHS.HEALTH,
     response_model=HealthResponse,
     status_code=status.HTTP_200_OK,
     summary="Health Check Probe",

@@ -5,7 +5,10 @@ description = "Dedicated AI and Code Intelligence microservice for MockPrep plat
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "alembic>=1.14.0",
+    "asyncpg>=0.30.0",
     "fastapi[standard]>=0.162.0",
+    "sqlalchemy[asyncio]>=2.0.0",
 ]
 
 [dependency-groups]
