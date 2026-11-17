@@ -20,16 +20,14 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     INTERNAL_API_PREFIX: str = "/internal/v1"
 
-    # Shared secret header token for Express -> FastAPI machine-to-machine communication
-    INTERNAL_SERVICE_TOKEN: str = "mockprep-internal-secret-token-change-in-prod"
+    # Shared secret header token for Express -> FastAPI machine-to-machine communication (strictly loaded from .env)
+    INTERNAL_SERVICE_TOKEN: str
 
-    # Database connection string (PostgreSQL / Neon)
-    DATABASE_URL: str = (
-        "postgresql+asyncpg://neondb_owner:npg_2UGQ8pKSuwej@ep-mute-queen-abfugb4p-pooler.eu-west-2.aws.neon.tech/neondb"
-    )
+    # Database connection string (loaded strictly from .env)
+    DATABASE_URL: str
 
-    HOST: str = "127.0.0.1"
-    PORT: int = 8000
+    HOST: str
+    PORT: int
 
     # CORS origins permitted to call this service
     BACKEND_CORS_ORIGINS: list[str] = [
