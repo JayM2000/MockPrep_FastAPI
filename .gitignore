@@ -35,6 +35,9 @@ htmlcov/
 .ruff_cache/
 .mypy_cache/
 
+# graphify
+graphify-out/
+
 # Environment variables
 .env
 .env.local
